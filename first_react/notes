@@ -4,3 +4,17 @@ extensions: simple react snippets by Burke Holland
             Prettier by Esben Petersen
 
 picsum.photos
+
+$r
+$r.render
+$0
+$0..click() 
+
+single source of truth
+
+raise event
+bubble event
+handle event
+
+
+
