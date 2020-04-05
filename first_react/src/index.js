@@ -4,7 +4,6 @@ import "./index.css"; //file import
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 import "bootstrap/dist/css/bootstrap.css"; //file import
-import Counters from "./components/counters";
 
 ReactDOM.render(
   <React.StrictMode>

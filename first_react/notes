@@ -17,4 +17,5 @@ bubble event
 handle event
 
 
+sfc => shortcut for stateless functional component
 

@@ -16,7 +16,7 @@ class App extends Component {
   };
   handleIncrement = (key) => {
     const counters = this.state.counters.map((counter) => {
-      if (counter.id == key) counter.value++;
+      if (counter.id === key) counter.value++;
       return counter;
     });
     this.setState({ counters });
