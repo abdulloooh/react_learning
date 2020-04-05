@@ -5,22 +5,23 @@ class Counter extends Component {
   // a controlled component should be controlled by its parent and should not have its own local state
   render() {
     // console.log("props", this.props); //props is a javascript object
+    const { children, onIncrement, counter, onDelete } = this.props;
     return (
       <div>
-        {this.props.children} {/*props is read-only*/}
+        {children} {/*props is read-only*/}
         <span className={this.setBadgeClass()}>{this.formatCount()}</span>
         <button
           onClick={() => {
-            this.props.onIncrement(this.props.counter.id);
+            onIncrement(counter.id);
           }}
           className="btn btn-secondary btn-md"
         >
           Increment
         </button>
         <button
-          // onClick={this.props.onDelete} //raising an event
+          // onClick={onDelete} //raising an event
           // OR logic can be done here
-          onClick={() => this.props.onDelete(this.props.counter.id)}
+          onClick={() => onDelete(counter.id)}
           className="btn btn-md m-3 btn-danger"
         >
           Delete
