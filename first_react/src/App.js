@@ -14,8 +14,25 @@ class App extends Component {
       { id: 4, value: 0 },
     ],
   };
+
+  constructor(props) {
+    super(props);
+    console.log("App - Constructor");
+    //this is where you set all the ppts needed for this component before rendering
+    //eg
+    //this.state = this.props.sth
+    // console.log(this.props); //this will give undefined
+    // console.log(props); //unless props has to be passed in as argument
+  }
+
+  componentDidMount() {
+    //this is the best place to make AJAX or fetch Api calls to get data from server before rendering
+    //then update state or sth eg this.setState({audios: something})
+    console.log("App - Mounted");
+  }
+
   handleIncrement = (key) => {
-    const counters = this.state.counters.map((counter) => {
+    let counters = this.state.counters.map((counter) => {
       if (counter.id === key) counter.value++;
       return counter;
     });
@@ -32,7 +49,7 @@ class App extends Component {
   };
 
   handleReset = () => {
-    const counters = this.state.counters.map((counter) => {
+    let counters = this.state.counters.map((counter) => {
       counter.value = 0;
       return counter;
     });
@@ -40,6 +57,8 @@ class App extends Component {
   };
 
   render() {
+    console.log("App - rendered");
+
     return (
       <React.Fragment>
         <main role="main" className="container">

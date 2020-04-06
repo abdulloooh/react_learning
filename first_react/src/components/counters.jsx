@@ -3,6 +3,8 @@ import Counter from "./counter";
 
 class Counters extends Component {
   render() {
+    console.log("Counters - rendered");
+
     const { counters, onDelete, onIncrement, onReset } = this.props;
 
     return (
@@ -18,7 +20,7 @@ class Counters extends Component {
             onDelete={onDelete}
             onIncrement={onIncrement}
           >
-            <p>Counter #{counter.id}</p>{" "}
+            <p>Counter #{counter.id}</p>
             {/*I do not have to do this tho, can simply pass id and render p tag from the origin end*/}
             {/* <h5>Something</h5> */}
             {/* <p>Another</p> */}

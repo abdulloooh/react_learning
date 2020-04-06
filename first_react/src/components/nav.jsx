@@ -4,6 +4,10 @@ import React from "react"; //imr only now since render mtd of class Component fr
 
 const NavBar = ({ total }) => {
   //Destructuring arguments, what we simply did here is const {total} = props
+
+  //NB: lifecycle hooks can only be use on cc and not sfc
+  console.log("NavBar - rendered");
+
   return (
     <nav className="navbar navbar-light bg-light">
       <span className="navbar-brand mb-0 h1">

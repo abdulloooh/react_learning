@@ -19,3 +19,10 @@ handle event
 
 sfc => shortcut for stateless functional component
 
+lifecycle hooks     //NB: lifecycle hooks can only be use on cc and not sfc
+
+=> 1. Mounting phase
+=> 2. Updating phase
+=> 3. Unmounting phase
+
+npx react-codemod rename-unsafe-lifecycles   //to remame all deprecated package(function or maybe class)
