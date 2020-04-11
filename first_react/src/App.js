@@ -2,8 +2,12 @@ import React, { Component } from "react";
 import "./App.css";
 import NavBar from "./components/nav";
 import Counters from "./components/counters";
-
 class App extends Component {
+  componentDidUpdate(prevProps, prevState) {
+    // console.log("prev state ", prevState);
+    console.log("prev state ", prevState.counters);
+    console.log("new state", this.state.counters);
+  }
   state = {
     //single source of truth
 
@@ -31,13 +35,22 @@ class App extends Component {
     console.log("App - Mounted");
   }
 
-  handleIncrement = (key) => {
-    let counters = this.state.counters.map((counter) => {
-      if (counter.id === key) counter.value++;
-      return counter;
-    });
+  handleIncrement = (counter) => {
+    let counters = [...this.state.counters];
+    const index = counters.indexOf(counter);
+    counters[index] = { ...counter };
+    counters[index].value++;
     this.setState({ counters });
   };
+
+  handleDecrement = (counter) => {
+    let counters = [...this.state.counters];
+    const index = counters.indexOf(counter);
+    counters[index] = { ...counter };
+    counters[index].value--;
+    this.setState({ counters });
+  };
+
   handleDelete = (key) => {
     //handling the raised event
     // this.setState({
@@ -49,7 +62,13 @@ class App extends Component {
   };
 
   handleReset = () => {
-    let counters = this.state.counters.map((counter) => {
+    //obly this method below copy multi-D array by value and not reference, others only work on simple array
+    let counters = JSON.parse(JSON.stringify(this.state.counters));
+    // counters[0].value++;
+    // console.log(counters[0]);
+    // console.log(this.state.counters[0].value);
+    // return false;
+    counters = counters.map((counter) => {
       counter.value = 0;
       return counter;
     });
@@ -67,11 +86,13 @@ class App extends Component {
               this.state.counters.filter((counter) => counter.value > 0).length
             }
           />
+
           <Counters
             className="lead"
             counters={this.state.counters}
             onDelete={this.handleDelete}
             onIncrement={this.handleIncrement}
+            onDecrement={this.handleDecrement}
             onReset={this.handleReset}
           />
         </main>

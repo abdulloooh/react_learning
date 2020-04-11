@@ -1,4 +1,7 @@
+
 npm i bootstrap@4.1.1
+
+Intellisense    ctrl + space
 
 extensions: simple react snippets by Burke Holland
             Prettier by Esben Petersen
@@ -25,4 +28,87 @@ lifecycle hooks     //NB: lifecycle hooks can only be use on cc and not sfc
 => 2. Updating phase
 => 3. Unmounting phase
 
-npx react-codemod rename-unsafe-lifecycles   //to remame all deprecated package(function or maybe class)
+ES6  Resfresh
+
+
+_<opt>  <scoped to>_
+var => function
+let => block
+const => block
+
+const obje = {
+  name : "Abdullah",
+  mtd  : function(){
+    console.log(this)
+  }
+  mtd(){}   //ES6
+}
+obje.name or obj['name']  //square bracket majorly used when user input is the determining factor
+
+_This_
+obje.mtd()  //obje object will be logged
+const pers = obje.mtd   // not invoking the function but just getting reference
+pers()  //window object in non-strict mode while undefined in strict mode cos it was called by a function and not object
+
+_bind_
+All JS functions are also objects
+const pers = obje.mtd.bind(obje)  //bind binds thisArg to the new pers instance
+pers()    //return obje object
+
+_Arror function don't rebind the 'this' keyword_
+
+const obje = {
+  name : "Abdullah",
+  /*to make this to still bahave as this object */  const self = this
+  mtd(){
+    setTimeOut(function(){console.log(this)}, 1000)  // this returns window object
+    /*to make this to still bahave as this object, replace this with self */ 
+  }  
+}
+//callback functions are standalone functions outside of any object
+//but alternatively, just change to arrow function
+const obje = {
+  mtd(){
+    setTimeOut(()=>{console.log(this)},1000)  //this returns the obje objects
+  }
+}
+
+_Object destructuring_
+const address={
+  name:'name',
+  address:'address'
+}
+const {name:nm, address:ad} = address
+
+_spread operator_
+//clone an object, clone an array, concat an obj or array also
+//instead of 
+newArr=[arr1].concat([arr2])
+newArr= [...arr1,'sth',...arr2,'else']
+clone = [...arr1]
+
+_Inheritance_
+//Once the child class carries a constructor, then it must call super.
+//if super needs any variable to initialize it, it will be passed throught the super method while the entire child object 
+//will be initialized with the arguments needed for both child and parent class
+
+_Modularization_
+//append export to the class you want to modularize, 
+//ensuring it is saved in file because objects are private by default and not accessible until exported
+//then import e.g
+import {Person} from './person'
+
+#Their are two types of export/import
+Default and Named, above example is named export
+example of default export:
+export default class Person{}
+
+Importing:
+default =>  import ... from ''
+named   =>  import {...} from ''
+mixture =>  import ... , {...} from ''
+
+#mixture because you can have several exports in a file and one default
+#Intellisense    ctrl + space to see importables from a file
+
+div.col-1+div.col
