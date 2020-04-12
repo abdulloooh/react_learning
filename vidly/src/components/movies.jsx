@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Like from "./common/like";
 import Paginate from "./common/paginate";
+import { Pagination } from "../utils/pagination";
 import {
   // deleteMovie,
   getMovies,
@@ -10,8 +11,9 @@ import {
 
 class Movies extends Component {
   state = {
-    movies: getMovies(),
-    pageSize: 4,
+    allMovies: getMovies(),
+    pageSize: 8,
+    currentPage: 3,
   };
 
   handleDelete = (movie) => {
@@ -20,20 +22,26 @@ class Movies extends Component {
   };
 
   handleClick = (movie) => {
-    let movies = [...this.state.movies]; //clone
+    let movies = [...this.state.allMovies]; //clone
     const index = movies.indexOf(movie);
-    movies[index] = { ...this.state.movies[index] };
+    movies[index] = { ...this.state.allMovies[index] };
     movies[index].like = !movies[index].like;
-    this.setState({ movies });
+    this.setState({ allMovies: movies });
+  };
+
+  handlePageChange = (page) => {
+    this.setState({ currentPage: page });
   };
 
   render() {
-    const { movies, pageSize } = this.state;
-    const { length: count } = movies;
+    const { allMovies, pageSize, currentPage } = this.state;
+    const { length: count } = allMovies;
     // console.log(movies[0].genre.name);
 
     if (count === 0)
       return <p className="mt-3">Their are no movies in the database</p>;
+
+    const movies = Pagination(allMovies, pageSize, currentPage);
 
     return (
       <React.Fragment>
@@ -79,7 +87,12 @@ class Movies extends Component {
             })}
           </tbody>
         </table>
-        <Paginate pageSize={pageSize} itemsCount={count} />
+        <Paginate
+          pageSize={pageSize}
+          itemsCount={count}
+          currentPage={currentPage}
+          onPageChange={this.handlePageChange}
+        />
       </React.Fragment>
     );
   }

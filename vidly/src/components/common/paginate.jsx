@@ -1,16 +1,36 @@
 import React from "react";
-import _ from "loadash";
+import _ from "lodash";
 
 const Paginate = (props) => {
-  const { pageSize, itemsCount } = props;
-  const pagesCount = Math.ceil(itemsCount / pageSize);
-  _.range(1, pagesCount);
+  const { pageSize, itemsCount, currentPage, onPageChange } = props;
+
+  const pagesCount = Math.ceil(itemsCount / pageSize); //ceil ceils the value to the nearest greater whole number
+
+  if (pagesCount === 1) return null;
+
+  const pages = _.range(1, pagesCount + 1);
   return (
     <nav>
       <ul className="pagination">
-        <li className="page-item active">
-          <a className="page-link">1</a>
-        </li>
+        {pages.map((page) => {
+          return (
+            <li
+              key={page}
+              className={
+                page === currentPage ? "page-item active" : "page-item"
+              }
+            >
+              <a
+                className="page-link"
+                onClick={() => {
+                  onPageChange(page);
+                }}
+              >
+                {page}
+              </a>
+            </li>
+          );
+        })}
       </ul>
     </nav>
   );
