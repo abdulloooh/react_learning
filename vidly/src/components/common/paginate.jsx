@@ -1,5 +1,5 @@
 import React from "react";
-import _ from "loadash";
+// import _ from "loadash";
 
 const Paginate = (props) => {
   const { pageSize, itemsCount } = props;
