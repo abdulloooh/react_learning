@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Like from "./common/like";
+import Paginate from "./common/paginate";
 import {
   // deleteMovie,
   getMovies,
@@ -10,6 +11,7 @@ import {
 class Movies extends Component {
   state = {
     movies: getMovies(),
+    pageSize: 4,
   };
 
   handleDelete = (movie) => {
@@ -26,7 +28,7 @@ class Movies extends Component {
   };
 
   render() {
-    const { movies } = this.state;
+    const { movies, pageSize } = this.state;
     const { length: count } = movies;
     // console.log(movies[0].genre.name);
 
@@ -77,6 +79,7 @@ class Movies extends Component {
             })}
           </tbody>
         </table>
+        <Paginate pageSize={pageSize} itemsCount={count} />
       </React.Fragment>
     );
   }
