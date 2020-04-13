@@ -1,7 +1,8 @@
 import React from "react";
 import _ from "lodash";
+import PropTypes from "prop-types";
 
-const Paginate = (props) => {
+const Pagination = (props) => {
   const { pageSize, itemsCount, currentPage, onPageChange } = props;
 
   const pagesCount = Math.ceil(itemsCount / pageSize); //ceil ceils the value to the nearest greater whole number
@@ -36,4 +37,11 @@ const Paginate = (props) => {
   );
 };
 
-export default Paginate;
+Pagination.propTypes = {
+  pageSize: PropTypes.number.isRequired,
+  itemsCount: PropTypes.number.isRequired,
+  currentPage: PropTypes.number.isRequired,
+  onPageChange: PropTypes.func.isRequired,
+};
+
+export default Pagination;
