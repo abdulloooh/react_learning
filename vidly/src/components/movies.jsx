@@ -73,14 +73,13 @@ class Movies extends Component {
     if (count === 0)
       return <p className="mt-3">Their are no movies in the database</p>;
 
-    const filtered =
-      selectedGenre && selectedGenre._id //truth
-        ? allMovies.filter((movie) => movie.genre._id === selectedGenre._id)
-        : allMovies;
-
-    // const sorted = _.sortBy(filtered, this.state.sortColumn.path); //only for ascending sorting
-    const sorted = _.orderBy(filtered, sortColumn.path, sortColumn.order);
-    const movies = Paginate(sorted, pageSize, currentPage);
+    const { totalCount, movies } = this.getPagedData(
+      selectedGenre,
+      allMovies,
+      sortColumn,
+      pageSize,
+      currentPage
+    );
 
     return (
       <div className="row mt-5">
@@ -96,8 +95,7 @@ class Movies extends Component {
 
         <div className="col">
           <p className="mt-2">
-            Showing {filtered.length} movie{count === 1 ? "" : "s"} in the
-            database
+            Showing {totalCount} movie{count === 1 ? "" : "s"} in the database
           </p>
           <MoviesTable
             movies={movies}
@@ -108,13 +106,24 @@ class Movies extends Component {
           />
           <Pagination
             pageSize={pageSize}
-            itemsCount={filtered.length}
+            itemsCount={totalCount}
             currentPage={currentPage}
             onPageChange={this.handlePageChange}
           />
         </div>
       </div>
     );
+  }
+
+  getPagedData(selectedGenre, allMovies, sortColumn, pageSize, currentPage) {
+    const filtered =
+      selectedGenre && selectedGenre._id //truth
+        ? allMovies.filter((movie) => movie.genre._id === selectedGenre._id)
+        : allMovies;
+    // const sorted = _.sortBy(filtered, this.state.sortColumn.path); //only for ascending sorting
+    const sorted = _.orderBy(filtered, sortColumn.path, sortColumn.order);
+    const movies = Paginate(sorted, pageSize, currentPage);
+    return { totalCount: filtered.length, movies };
   }
 }
 
