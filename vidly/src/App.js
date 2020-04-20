@@ -1,31 +1,31 @@
 import React from "react";
-import "./App.css";
+import { Switch, Route, Redirect } from "react-router-dom";
 import Movies from "./components/movies";
 import Navbar from "./components/navbar";
-import { Switch, Route, Redirect } from "react-router-dom";
 import NotFound from "./components/notFound";
 import Customers from "./components/customers";
 import Rentals from "./components/rentals";
-import MovieId from "./components/common/movie";
+import MovieForm from "./components/movieForm";
+import "./App.css";
 
 function App() {
   return (
-    <main role="main" className="container">
+    <React.Fragment>
       <Navbar />
+      <main role="main" className="container">
+        {/* Switch>Route*4[path=""][component=""] */}
 
-      <Switch>
-        <Route
-          path="/movies/:id"
-          component={(props) => <MovieId {...props} />}
-        />
-        <Route path="/movies" component={Movies} />
-        <Route path="/customers" component={Customers} />
-        <Route path="/rentals" component={Rentals} />
-        <Redirect from="/" to="/movies" />
-        <Route path="/not-found" component={NotFound} />
-        <Redirect to="not-found" />
-      </Switch>
-    </main>
+        <Switch>
+          <Route path="/movies/:id" component={MovieForm} />
+          <Route path="/movies" component={Movies} />
+          <Route path="/customers" component={Customers} />
+          <Route path="/rentals" component={Rentals} />
+          <Redirect exact from="/" to="/movies" />
+          <Route path="/not-found" component={NotFound} />
+          <Redirect to="not-found" />
+        </Switch>
+      </main>
+    </React.Fragment>
   );
 }
 

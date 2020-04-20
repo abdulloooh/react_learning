@@ -6,8 +6,8 @@ const MovieId = ({ history, match }) => {
       <h1>Movie Form {match.params.id}</h1>
       <button
         type="button"
-        class="btn btn-primary"
-        onClick={() => history.goBack()}
+        className="btn btn-primary"
+        onClick={() => history.push("/movies")} // we can't use this.handleSave there being a functional component
       >
         Save
       </button>
