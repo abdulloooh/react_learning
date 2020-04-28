@@ -3,12 +3,13 @@ import React from "react";
 // value for each option : option label,option value
 
 const Select = ({ label, name, options, error, ...rest }) => {
+  console.log(options);
   return (
     <div className="form-group">
       <label htmlFor="">{label}</label>
       <select {...rest} name={name} className="form-control">
         {options.map((option) => (
-          <option key={option.id} value={option.id}>
+          <option key={option._id} value={option._id}>
             {option.name}
           </option>
         ))}

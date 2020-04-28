@@ -18,7 +18,6 @@ function App() {
         {/* Switch>Route*4[path=""][component=""] */}
 
         <Switch>
-          <Route path="/movies/new" component={MovieForm} />
           <Route path="/movies/:id" component={MovieForm} />
           <Route path="/movies" component={Movies} />
           <Route path="/customers" component={Customers} />
