@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import Pagination from "./common/pagination";
 import { Paginate } from "../utils/paginate";
 import ListGroup from "./common/listGroup";
-import { getMovies } from "../services/fakeMovieService";
+import { getMovies, deleteMovie } from "../services/fakeMovieService";
 import { getGenres } from "../services/fakeGenreService";
 import MoviesTable from "./moviesTable";
 import _ from "lodash";
@@ -30,6 +30,7 @@ class Movies extends Component {
   handleDelete = (movie) => {
     const movies = this.state.allMovies.filter((m) => m._id !== movie._id);
     this.setState({ allMovies: movies });
+    deleteMovie(movie._id);
   };
 
   handleClick = (movie) => {
@@ -80,7 +81,6 @@ class Movies extends Component {
       pageSize,
       currentPage
     );
-
     return (
       <div className="row mt-5">
         <div className="col-sm-2">
@@ -94,6 +94,11 @@ class Movies extends Component {
         </div>
 
         <div className="col">
+          <button className="btn btn-primary">
+            <a onClick={() => this.props.history.push("/movies/new")}>
+              New Movie
+            </a>
+          </button>
           <p className="mt-2">
             Showing {totalCount} movie{count === 1 ? "" : "s"} in the database
           </p>

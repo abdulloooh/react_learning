@@ -1,16 +1,18 @@
 import React from "react";
 
-const Input = ({ label, name, error, ...rest }) => {
+// value for each option : option label,option value
+
+const Select = ({ label, name, options, error, ...rest }) => {
   return (
     <div className="form-group">
-      <label htmlFor={name}>{label}</label>
-      <input
-        {...rest}
-        name={name}
-        // autoFocus
-        className="form-control"
-        // ref={this.username}
-      />
+      <label htmlFor="">{label}</label>
+      <select {...rest} name={name} className="form-control">
+        {options.map((option) => (
+          <option key={option.id} value={option.id}>
+            {option.name}
+          </option>
+        ))}
+      </select>
 
       <br />
 
@@ -30,4 +32,4 @@ const Input = ({ label, name, error, ...rest }) => {
   );
 };
 
-export default Input;
+export default Select;
