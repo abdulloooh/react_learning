@@ -3,7 +3,6 @@ import React from "react";
 // value for each option : option label,option value
 
 const Select = ({ label, name, options, error, ...rest }) => {
-  console.log(options);
   return (
     <div className="form-group">
       <label htmlFor="">{label}</label>

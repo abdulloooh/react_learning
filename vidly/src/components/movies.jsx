@@ -5,7 +5,9 @@ import ListGroup from "./common/listGroup";
 import { getMovies, deleteMovie } from "../services/fakeMovieService";
 import { getGenres } from "../services/fakeGenreService";
 import MoviesTable from "./moviesTable";
+import { Link } from "react-router-dom";
 import _ from "lodash";
+import Search from "./common/search";
 
 class Movies extends Component {
   state = {
@@ -13,6 +15,7 @@ class Movies extends Component {
     allGenres: [],
     pageSize: 3,
     currentPage: 1,
+    searchQuery: "",
     sortColumn: { path: "title", order: "asc" },
   };
   componentDidMount() {
@@ -24,7 +27,7 @@ class Movies extends Component {
   genreChange = (genre) => {
     // console.log(genreName);
     this.setState({ currentPage: 1 });
-    this.setState({ selectedGenre: genre });
+    this.setState({ selectedGenre: genre, searchQuery: "" });
   };
 
   handleDelete = (movie) => {
@@ -59,6 +62,14 @@ class Movies extends Component {
     this.setState({ currentPage: page });
   };
 
+  handleSearch = ({ currentTarget }) => {
+    const searchQuery = currentTarget.value;
+
+    const currentPage = 1;
+
+    this.setState({ searchQuery, currentPage, selectedGenre: null });
+  };
+
   render() {
     const {
       allMovies,
@@ -67,6 +78,7 @@ class Movies extends Component {
       currentPage,
       selectedGenre,
       sortColumn,
+      searchQuery,
     } = this.state;
     const { length: count } = allMovies;
     // console.log(allGenres);
@@ -79,7 +91,8 @@ class Movies extends Component {
       allMovies,
       sortColumn,
       pageSize,
-      currentPage
+      currentPage,
+      searchQuery
     );
     return (
       <div className="row mt-5">
@@ -94,14 +107,26 @@ class Movies extends Component {
         </div>
 
         <div className="col">
-          <button className="btn btn-primary">
+          {/* <button className="btn btn-primary">
             <a onClick={() => this.props.history.push("/movies/new")}>
               New Movie
             </a>
-          </button>
+          </button> */}
+          <Link className="btn btn-primary" to="/movies/new">
+            Add Movie
+          </Link>
+
           <p className="mt-2">
             Showing {totalCount} movie{count === 1 ? "" : "s"} in the database
           </p>
+
+          <Search
+            name="search"
+            placeholder="Search..."
+            onChange={this.handleSearch}
+            value={searchQuery}
+          />
+
           <MoviesTable
             movies={movies}
             onClick={this.handleClick}
@@ -120,10 +145,21 @@ class Movies extends Component {
     );
   }
 
-  getPagedData(selectedGenre, allMovies, sortColumn, pageSize, currentPage) {
+  getPagedData(
+    selectedGenre,
+    allMovies,
+    sortColumn,
+    pageSize,
+    currentPage,
+    searchQuery
+  ) {
     const filtered =
       selectedGenre && selectedGenre._id //truth
         ? allMovies.filter((movie) => movie.genre._id === selectedGenre._id)
+        : searchQuery
+        ? allMovies.filter((movie) =>
+            movie.title.toLowerCase().startsWith(searchQuery)
+          )
         : allMovies;
     // const sorted = _.sortBy(filtered, this.state.sortColumn.path); //only for ascending sorting
     const sorted = _.orderBy(filtered, sortColumn.path, sortColumn.order);
