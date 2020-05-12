@@ -2,12 +2,13 @@ import React, { Component } from "react";
 import Pagination from "./common/pagination";
 import { Paginate } from "../utils/paginate";
 import ListGroup from "./common/listGroup";
-import { getMovies, deleteMovie } from "../services/fakeMovieService";
-import { getGenres } from "../services/fakeGenreService";
+import { getMovies, deleteMovie } from "../services/movieService";
+import { getGenres } from "../services/genreService";
 import MoviesTable from "./moviesTable";
 import { Link } from "react-router-dom";
 import _ from "lodash";
 import Search from "./common/search";
+import { toast } from "react-toastify";
 
 class Movies extends Component {
   state = {
@@ -18,10 +19,12 @@ class Movies extends Component {
     searchQuery: "",
     sortColumn: { path: "title", order: "asc" },
   };
-  componentDidMount() {
+  async componentDidMount() {
+    const { data: genres } = await getGenres();
+    const { data: allMovies } = await getMovies();
     this.setState({
-      allMovies: getMovies(),
-      allGenres: [{ _id: "", name: "All Genre" }, ...getGenres()],
+      allMovies,
+      allGenres: [{ _id: "", name: "All Genres" }, ...genres],
     });
   }
   genreChange = (genre) => {
@@ -30,10 +33,22 @@ class Movies extends Component {
     this.setState({ selectedGenre: genre, searchQuery: "" });
   };
 
-  handleDelete = (movie) => {
+  handleDelete = async (movie) => {
+    const originalMovies = this.state.allMovies;
     const movies = this.state.allMovies.filter((m) => m._id !== movie._id);
     this.setState({ allMovies: movies });
-    deleteMovie(movie._id);
+
+    try {
+      await deleteMovie(movie._id);
+    } catch (ex) {
+      if (ex.response && ex.response.status === 404) {
+        toast.error("This movie can not be found");
+      } else if (ex.response && ex.response.status === 400) {
+        toast.error("Invalid request");
+      }
+
+      this.setState({ allMovies: originalMovies });
+    }
   };
 
   handleClick = (movie) => {
@@ -95,53 +110,55 @@ class Movies extends Component {
       searchQuery
     );
     return (
-      <div className="row mt-5">
-        <div className="col-sm-2">
-          <ListGroup
-            items={allGenres}
-            onItemSelect={this.genreChange}
-            selectedItem={selectedGenre}
-            // keyProperty="_id"
-            // valueProperty="name"
-          />
+      <React.Fragment>
+        <div className="row mt-5">
+          <div className="col-sm-2">
+            <ListGroup
+              items={allGenres}
+              onItemSelect={this.genreChange}
+              selectedItem={selectedGenre}
+              // keyProperty="_id"
+              // valueProperty="name"
+            />
+          </div>
+
+          <div className="col">
+            {/* <button className="btn btn-primary">
+              <a onClick={() => this.props.history.push("/movies/new")}>
+                New Movie
+              </a>
+            </button> */}
+            <Link className="btn btn-primary" to="/movies/new">
+              Add Movie
+            </Link>
+
+            <p className="mt-2">
+              Showing {totalCount} movie{count === 1 ? "" : "s"} in the database
+            </p>
+
+            <Search
+              name="search"
+              placeholder="Search..."
+              onChange={this.handleSearch}
+              value={searchQuery}
+            />
+
+            <MoviesTable
+              movies={movies}
+              onClick={this.handleClick}
+              onDelete={this.handleDelete}
+              onSort={this.handleSort}
+              sortColumn={sortColumn}
+            />
+            <Pagination
+              pageSize={pageSize}
+              itemsCount={totalCount}
+              currentPage={currentPage}
+              onPageChange={this.handlePageChange}
+            />
+          </div>
         </div>
-
-        <div className="col">
-          {/* <button className="btn btn-primary">
-            <a onClick={() => this.props.history.push("/movies/new")}>
-              New Movie
-            </a>
-          </button> */}
-          <Link className="btn btn-primary" to="/movies/new">
-            Add Movie
-          </Link>
-
-          <p className="mt-2">
-            Showing {totalCount} movie{count === 1 ? "" : "s"} in the database
-          </p>
-
-          <Search
-            name="search"
-            placeholder="Search..."
-            onChange={this.handleSearch}
-            value={searchQuery}
-          />
-
-          <MoviesTable
-            movies={movies}
-            onClick={this.handleClick}
-            onDelete={this.handleDelete}
-            onSort={this.handleSort}
-            sortColumn={sortColumn}
-          />
-          <Pagination
-            pageSize={pageSize}
-            itemsCount={totalCount}
-            currentPage={currentPage}
-            onPageChange={this.handlePageChange}
-          />
-        </div>
-      </div>
+      </React.Fragment>
     );
   }
 

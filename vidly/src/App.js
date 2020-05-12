@@ -7,12 +7,15 @@ import Customers from "./components/customers";
 import Rentals from "./components/rentals";
 import MovieForm from "./components/movieForm";
 import LoginForm from "./components/loginForm";
-import "./App.css";
 import RegisterForm from "./components/regsiterForm";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import "./App.css";
 
 function App() {
   return (
     <React.Fragment>
+      <ToastContainer />
       <Navbar />
       <main role="main" className="container">
         {/* Switch>Route*4[path=""][component=""] */}
