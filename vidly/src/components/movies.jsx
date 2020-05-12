@@ -27,6 +27,7 @@ class Movies extends Component {
       allGenres: [{ _id: "", name: "All Genres" }, ...genres],
     });
   }
+
   genreChange = (genre) => {
     // console.log(genreName);
     this.setState({ currentPage: 1 });

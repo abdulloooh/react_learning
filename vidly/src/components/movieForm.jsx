@@ -27,16 +27,28 @@ class MovieForm extends Form {
     // publishDate: Joi.required(),
   };
 
-  async componentDidMount() {
+  populateGenre = async () => {
     const { data: genres } = await getGenres();
     this.setState({ genres });
+  };
 
+  populateMovie = async () => {
     if (this.props.match.params.id === "new") return;
 
-    const { data: movie } = await getMovie(this.props.match.params.id);
-    if (!movie) return this.props.history.replace("/not-found");
+    try {
+      const { data: movie } = await getMovie(this.props.match.params.id);
+      this.setState({ data: this.mapToViewModel(movie) });
+    } catch (ex) {
+      if (ex.response && ex.response.status === 404) {
+        toast.error("This movie can not be found", { autoclose: 3000 });
+        return this.props.history.replace("/not-found");
+      }
+    }
+  };
 
-    this.setState({ data: this.mapToViewModel(movie) });
+  async componentDidMount() {
+    await this.populateGenre();
+    await this.populateMovie();
   }
 
   mapToViewModel(movie) {
