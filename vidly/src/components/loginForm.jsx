@@ -1,7 +1,7 @@
 import React from "react";
 import Joi from "joi-browser";
 import Form from "./common/form";
-
+import { login } from "../services/userService";
 class LoginForm extends Form {
   state = {
     data: { username: "", password: "" },
@@ -9,12 +9,7 @@ class LoginForm extends Form {
   };
 
   schema = {
-    username: Joi.string()
-      .alphanum()
-      .min(3)
-      .max(30)
-      .required()
-      .label("Username"),
+    username: Joi.string().min(3).max(30).required().label("Email"),
     password: Joi.string().min(5).required().label("Password"),
   };
 
@@ -29,9 +24,20 @@ class LoginForm extends Form {
   //   // this.username.current.focus();
   // };
 
-  doSubmit() {
+  async doSubmit() {
     //call the server
-    console.log("Submitted");
+    try {
+      const { username, password } = this.state.data;
+      const { data: jwt } = await login(username, password);
+      localStorage.setItem("vidly_token", jwt);
+      this.props.history.push("/");
+    } catch (ex) {
+      if (ex.response && ex.response.status === 400) {
+        const errors = { ...this.state.errors };
+        errors.username = ex.response.data;
+        this.setState({ errors });
+      }
+    }
   }
 
   render() {

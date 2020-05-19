@@ -69,6 +69,7 @@ class Form extends Component {
         value={_.get(data, name)}
         onChange={this.handleChange}
         error={errors[name]}
+        autoComplete="new-password"
       />
     );
   }

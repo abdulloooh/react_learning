@@ -1,6 +1,7 @@
 import React from "react";
 import Joi from "joi-browser";
 import Form from "./common/form";
+import * as userService from "../services/userService";
 
 class RegisterForm extends Form {
   state = {
@@ -14,9 +15,25 @@ class RegisterForm extends Form {
     name: Joi.string().required(),
   };
 
-  doSubmit = () => {
+  doSubmit = async () => {
     //call the server
-    console.log("Submitted");
+    try {
+      const { email, password } = this.state.data;
+
+      const response = await userService.register(this.state.data);
+      // console.log(response);
+
+      const jwt = response.headers["x-auth-token"];
+      localStorage.setItem("vidly_token", jwt);
+
+      this.props.history.push("/");
+    } catch (ex) {
+      if (ex.response && ex.response.status === 400) {
+        const errors = { ...this.state.errors };
+        errors.email = ex.response.data;
+        this.setState({ errors });
+      }
+    }
   };
 
   render() {

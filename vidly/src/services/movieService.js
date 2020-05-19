@@ -1,7 +1,7 @@
 import http from "./httpService";
 import config from "../config.json";
 
-const apiEndpoint = config.movieEndPoint;
+const apiEndpoint = `${config.apiEndPoint}/movies`;
 
 function movieUrl(id) {
   return `${apiEndpoint}/${id}`;
@@ -22,7 +22,7 @@ export function saveMovie(movie) {
   // movieInDb.numberInStock = movie.numberInStock;
   // movieInDb.dailyRentalRate = movie.dailyRentalRate;
 
-  //implementation above is awesome but too much
+  //implementation above is awesome but too much lines of code
 
   // note: do not directly modify the movie cos it is part of the state
 
