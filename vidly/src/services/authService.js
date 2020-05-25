@@ -5,6 +5,8 @@ import { apiEndPoint } from "../config.json";
 const loginApiEndpoint = apiEndPoint + "/auth";
 const tokenKey = "vidly_token";
 
+http.setJwt(getJwt());
+
 export async function login(email, password) {
   const { data: jwt } = await http.post(loginApiEndpoint, {
     email: email,
