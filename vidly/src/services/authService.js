@@ -3,36 +3,40 @@ import http from "./httpService";
 import { apiEndPoint } from "../config.json";
 
 const loginApiEndpoint = apiEndPoint + "/auth";
-const token = "vidly_token";
+const tokenKey = "vidly_token";
 
 export async function login(email, password) {
   const { data: jwt } = await http.post(loginApiEndpoint, {
     email: email,
     password: password,
   });
-  localStorage.setItem("token", jwt);
+  localStorage.setItem(tokenKey, jwt);
 }
 
 export function logout() {
-  localStorage.removeItem("token");
+  localStorage.removeItem(tokenKey);
 }
 
 export function getCurrentUser() {
   try {
-    const user = JwtDecode(localStorage.getItem("token"));
-    return user;
+    return JwtDecode(localStorage.getItem(tokenKey));
   } catch (ex) {
     return null;
   }
 }
 
+export function getJwt() {
+  return localStorage.getItem(tokenKey);
+}
+
 export function loginWithJWT(jwt) {
-  localStorage.setItem("token", jwt);
+  localStorage.setItem(tokenKey, jwt);
 }
 
 export default {
   login,
+  loginWithJWT,
   logout,
   getCurrentUser,
-  loginWithJWT,
+  getJwt,
 };

@@ -16,14 +16,17 @@ class RegisterForm extends Form {
     name: Joi.string().required(),
   };
 
+  componentDidMount() {
+    auth.getCurrentUser() && window.location.assign("/");
+  }
+
   doSubmit = async () => {
     //call the server
     try {
       const response = await register(this.state.data);
       // console.log(response);
 
-      const jwt = response.headers["x-auth-token"];
-      auth.loginWithJWT(jwt);
+      auth.loginWithJWT(response.headers["x-auth-token"]);
 
       window.location = "/";
     } catch (ex) {
