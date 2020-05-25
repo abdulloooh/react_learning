@@ -13,10 +13,6 @@ class LoginForm extends Form {
     password: Joi.string().min(5).required().label("Password"),
   };
 
-  componentDidMount() {
-    auth.getCurrentUser() && window.location.assign("/");
-  }
-
   // username = React.createRef();
   //do not always use ref just to make things happen
   //avoid document object, that is the purpose of react, the abstraction

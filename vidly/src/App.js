@@ -23,19 +23,33 @@ class App extends Component {
   }
 
   render() {
+    const { user } = this.state;
+
     return (
       <React.Fragment>
         <ToastContainer />
-        <Navbar user={this.state.user} />
+        <Navbar user={user} />
         <main role="main" className="container">
           {/* Switch>Route*4[path=""][component=""] */}
 
           <Switch>
             <Route path="/movies/:id" component={MovieForm} />
-            <Route path="/movies" component={Movies} />
+            <Route
+              path="/movies"
+              render={(props) => <Movies {...props} user={user} />}
+            />
             <Route path="/customers" component={Customers} />
             <Route path="/rentals" component={Rentals} />
-            <Route path="/login" component={LoginForm} />
+            <Route
+              path="/login"
+              render={(props) => {
+                return auth.getCurrentUser() ? (
+                  <Redirect to="/" />
+                ) : (
+                  <LoginForm />
+                );
+              }}
+            />
             <Route path="/register" component={RegisterForm} />
             <Route path="/logout" component={Logout} />
             <Redirect exact from="/" to="/movies" />

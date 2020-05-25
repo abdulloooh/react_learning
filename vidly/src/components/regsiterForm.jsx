@@ -16,10 +16,6 @@ class RegisterForm extends Form {
     name: Joi.string().required(),
   };
 
-  componentDidMount() {
-    auth.getCurrentUser() && window.location.assign("/");
-  }
-
   doSubmit = async () => {
     //call the server
     try {

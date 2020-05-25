@@ -87,6 +87,9 @@ class Movies extends Component {
   };
 
   render() {
+    const { user } = this.props;
+    // const { isAdmin } = this.props.user || " ";
+
     const {
       allMovies,
       allGenres,
@@ -129,9 +132,11 @@ class Movies extends Component {
                 New Movie
               </a>
             </button> */}
-            <Link className="btn btn-primary" to="/movies/new">
-              Add Movie
-            </Link>
+            {user && (
+              <Link className="btn btn-primary" to="/movies/new">
+                Add Movie
+              </Link>
+            )}
 
             <p className="mt-2">
               Showing {totalCount} movie{count === 1 ? "" : "s"} in the database
@@ -150,6 +155,7 @@ class Movies extends Component {
               onDelete={this.handleDelete}
               onSort={this.handleSort}
               sortColumn={sortColumn}
+              adminCheck={user && user.isAdmin}
             />
             <Pagination
               pageSize={pageSize}
