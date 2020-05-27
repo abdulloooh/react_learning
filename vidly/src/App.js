@@ -14,7 +14,6 @@ import auth from "./services/authService";
 import Logout from "./components/logout";
 import "react-toastify/dist/ReactToastify.css";
 import "./App.css";
-
 class App extends Component {
   state = {};
 

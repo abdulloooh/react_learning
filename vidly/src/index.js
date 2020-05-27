@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import ReactDOM from "react-dom";
 import App from "./App";
 import { BrowserRouter } from "react-router-dom";
@@ -7,6 +7,8 @@ import * as serviceWorker from "./serviceWorker";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "font-awesome/css/font-awesome.min.css";
 import "./index.css";
+
+// console.log("Superman", process.env.REACT_APP_NAME);
 
 logger.init();
 ReactDOM.render(

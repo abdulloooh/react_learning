@@ -1,5 +1,4 @@
 import React from "react";
-import { Redirect } from "react-router-dom";
 import Joi from "joi-browser";
 import { toast } from "react-toastify";
 import { getMovie, saveMovie } from "../services/movieService";
