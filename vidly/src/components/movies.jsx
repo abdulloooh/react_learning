@@ -102,8 +102,8 @@ class Movies extends Component {
     const { length: count } = allMovies;
     // console.log(allGenres);
 
-    if (count === 0)
-      return <p className="mt-3">Their are no movies in the database</p>;
+    // if (count === 0)
+    //   return <p className="mt-3">Their are no movies in the database</p>;
 
     const { totalCount, movies } = this.getPagedData(
       selectedGenre,
