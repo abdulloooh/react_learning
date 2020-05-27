@@ -155,7 +155,6 @@ class Movies extends Component {
               onDelete={this.handleDelete}
               onSort={this.handleSort}
               sortColumn={sortColumn}
-              adminCheck={user && user.isAdmin}
             />
             <Pagination
               pageSize={pageSize}

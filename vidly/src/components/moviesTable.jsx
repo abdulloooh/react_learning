@@ -1,8 +1,9 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
+import authService from "../services/authService";
 import Like from "./common/like";
 import TableHeader from "./common/tableHeader";
 import TableBody from "./common/tableBody";
-import { Link } from "react-router-dom";
 //sortColumn : object
 //onSort
 class MoviesTable extends Component {
@@ -26,10 +27,15 @@ class MoviesTable extends Component {
         <Like liked={movie.like} onClick={() => this.props.onClick(movie)} />
       ),
     },
-    {
-      key: "delete",
-      content: (movie) =>
-        this.props.adminCheck && (
+  ];
+
+  constructor() {
+    super();
+    const user = authService.getCurrentUser();
+    if (user && user.isAdmin) {
+      this.columns.push({
+        key: "delete",
+        content: (movie) => (
           <button
             className="btn btn-danger btn-sm mt-2"
             onClick={() => {
@@ -39,8 +45,10 @@ class MoviesTable extends Component {
             Delete
           </button>
         ),
-    },
-  ];
+      });
+    }
+  }
+
   render() {
     const { movies, onSort, sortColumn } = this.props;
 

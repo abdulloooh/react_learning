@@ -37,6 +37,9 @@ class MovieForm extends Form {
   populateMovie = async () => {
     if (this.props.match.params.id === "new") return;
 
+    if (this.props.match.params.id !== "new")
+      if (!authService.getCurrentUser().isAdmin) window.location = "/";
+
     try {
       const { data: movie } = await getMovie(this.props.match.params.id);
       this.setState({ data: this.mapToViewModel(movie) });
@@ -77,8 +80,8 @@ class MovieForm extends Form {
   };
 
   render() {
-    if (!authService.getCurrentUser().isAdmin) return <Redirect to="/" />;
     // const { history, match } = this.props;
+
     return (
       <React.Fragment>
         <h1>Movie Form</h1>

@@ -3,10 +3,10 @@ import { Route } from "react-router-dom";
 import authService from "../../services/authService";
 import { Redirect } from "react-router-dom";
 
-const ProtectedRoute = ({ path, component: Component }) => {
+const ProtectedRoute = ({ component: Component, ...rest }) => {
   return (
     <Route
-      path={path}
+      {...rest}
       render={(props) => {
         return authService.getCurrentUser() ? (
           <Component {...props} />
@@ -14,7 +14,7 @@ const ProtectedRoute = ({ path, component: Component }) => {
           <Redirect
             to={{
               pathname: "/login",
-              state: props.location,
+              state: { from: props.location },
             }}
           />
         );

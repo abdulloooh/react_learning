@@ -34,7 +34,7 @@ class App extends Component {
           {/* Switch>Route*4[path=""][component=""] */}
 
           <Switch>
-            <ProtectedRoute path="/movies/:id" component={MovieForm} />
+            <ProtectedRoute component={MovieForm} path="/movies/:id" />
             <Route path="/movies" component={Movies} />} />
             <Route path="/customers" component={Customers} />
             <Route path="/rentals" component={Rentals} />
