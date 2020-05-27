@@ -8,7 +8,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "font-awesome/css/font-awesome.min.css";
 import "./index.css";
 
-console.log("Superman", process.env.REACT_APP_NAME);
+// console.log("Superman", process.env.REACT_APP_NAME);
 
 logger.init();
 ReactDOM.render(

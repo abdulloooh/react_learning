@@ -1,8 +1,7 @@
 import JwtDecode from "jwt-decode";
 import http from "./httpService";
-import { apiEndPoint } from "../config.json";
 
-const loginApiEndpoint = apiEndPoint + "/auth";
+const loginApiEndpoint = "/auth";
 const tokenKey = "vidly_token";
 
 http.setJwt(getJwt());
