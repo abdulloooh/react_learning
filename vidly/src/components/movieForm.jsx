@@ -1,9 +1,11 @@
 import React from "react";
-import Form from "./common/form";
-import { getMovie, saveMovie } from "../services/movieService";
+import { Redirect } from "react-router-dom";
 import Joi from "joi-browser";
-import { getGenres } from "../services/genreService";
 import { toast } from "react-toastify";
+import { getMovie, saveMovie } from "../services/movieService";
+import { getGenres } from "../services/genreService";
+import authService from "../services/authService";
+import Form from "./common/form";
 
 class MovieForm extends Form {
   state = {
@@ -75,6 +77,7 @@ class MovieForm extends Form {
   };
 
   render() {
+    if (!authService.getCurrentUser().isAdmin) return <Redirect to="/" />;
     // const { history, match } = this.props;
     return (
       <React.Fragment>

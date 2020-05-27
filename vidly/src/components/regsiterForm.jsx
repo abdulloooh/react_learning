@@ -1,8 +1,10 @@
 import React from "react";
 import Joi from "joi-browser";
-import Form from "./common/form";
+import { Redirect } from "react-router-dom";
+import authService from "../services/authService";
 import { register } from "../services/userService";
 import auth from "../services/authService";
+import Form from "./common/form";
 
 class RegisterForm extends Form {
   state = {
@@ -35,6 +37,8 @@ class RegisterForm extends Form {
   };
 
   render() {
+    if (authService.getCurrentUser()) return <Redirect to="/" />;
+
     return (
       <form action="" onSubmit={this.handleSubmit}>
         {this.renderInput("Email", "email")}

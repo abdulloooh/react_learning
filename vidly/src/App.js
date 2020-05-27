@@ -9,6 +9,7 @@ import Rentals from "./components/rentals";
 import MovieForm from "./components/movieForm";
 import LoginForm from "./components/loginForm";
 import RegisterForm from "./components/regsiterForm";
+import ProtectedRoute from "./components/common/protectedRoute";
 import auth from "./services/authService";
 import Logout from "./components/logout";
 import "react-toastify/dist/ReactToastify.css";
@@ -23,33 +24,21 @@ class App extends Component {
   }
 
   render() {
-    const { user } = this.state;
-
     return (
       <React.Fragment>
         <ToastContainer />
-        <Navbar user={user} />
+
+        <Navbar user={this.state.user} />
+
         <main role="main" className="container">
           {/* Switch>Route*4[path=""][component=""] */}
 
           <Switch>
-            <Route path="/movies/:id" component={MovieForm} />
-            <Route
-              path="/movies"
-              render={(props) => <Movies {...props} user={user} />}
-            />
+            <ProtectedRoute path="/movies/:id" component={MovieForm} />
+            <Route path="/movies" component={Movies} />} />
             <Route path="/customers" component={Customers} />
             <Route path="/rentals" component={Rentals} />
-            <Route
-              path="/login"
-              render={(props) => {
-                return auth.getCurrentUser() ? (
-                  <Redirect to="/" />
-                ) : (
-                  <LoginForm />
-                );
-              }}
-            />
+            <Route path="/login" component={LoginForm} />
             <Route path="/register" component={RegisterForm} />
             <Route path="/logout" component={Logout} />
             <Redirect exact from="/" to="/movies" />

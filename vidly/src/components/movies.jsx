@@ -1,14 +1,15 @@
 import React, { Component } from "react";
-import Pagination from "./common/pagination";
-import { Paginate } from "../utils/paginate";
-import ListGroup from "./common/listGroup";
-import { getMovies, deleteMovie } from "../services/movieService";
-import { getGenres } from "../services/genreService";
-import MoviesTable from "./moviesTable";
 import { Link } from "react-router-dom";
 import _ from "lodash";
-import Search from "./common/search";
 import { toast } from "react-toastify";
+import { Paginate } from "../utils/paginate";
+import Pagination from "./common/pagination";
+import ListGroup from "./common/listGroup";
+import Search from "./common/search";
+import { getMovies, deleteMovie } from "../services/movieService";
+import { getGenres } from "../services/genreService";
+import authService from "../services/authService";
+import MoviesTable from "./moviesTable";
 
 class Movies extends Component {
   state = {
@@ -87,8 +88,7 @@ class Movies extends Component {
   };
 
   render() {
-    const { user } = this.props;
-    // const { isAdmin } = this.props.user || " ";
+    const user = authService.getCurrentUser();
 
     const {
       allMovies,
